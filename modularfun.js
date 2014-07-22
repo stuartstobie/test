@@ -1,21 +1,18 @@
 var fs = require('fs');
-exports.filter = function (path, filter) {
-	var files = [];
-	fs.readdir(process.argv[2], function (err, list) {
+module.exports = function (path, filter, callback){
+	var data;
+	fs.readdir(path, function (err, list) {
 		if (err) {
 			console.error(err.stack);
-			return;
+			return callback(err);
 		}
-		console.log(list.length)
+		var files =[];
 		for (var i = 0; i < list.length; i++) {
 			var entry = list[i].split('.');
-			console.log(entry[0] + " " + entry[1]);
 			if (entry.length > 1 && entry[1] == filter) {
-				console.log(i);
 				files.push(list[i]);
-				console.log[files];
 			}
 		}
+		callback(null, files);
 	});
-	return files;
 }
